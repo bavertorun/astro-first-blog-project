@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BlogPost from '../components/BlogPost.astro';
+
+const allPosts = await Astro.glob("../pages/posts/*.md");
+---
+
+<BaseLayout title="Welcome to my Blog.">
+	<main>
+		<h1>Welcome to my<span class="text-gradient"> Blog </span></h1>
+		<ul role="list" class="link-card-grid">
+			{allPosts.map(post => (
+				<BlogPost
+					url={post.url}
+					title={post.frontmatter.title}
+					description={post.frontmatter.description}
+				/>
+			))}
+		</ul>
+	</main>
+</BaseLayout>
+
+<style>
+	main {
+		margin: auto;
+		padding: 1rem;
+		width: 80%;
+		max-width: calc(100% - 2rem);
+		color: white;
+		font-size: 20px;
+		line-height: 1.6;
+	}
+	.astro-a {
+		position: absolute;
+		top: -32px;
+		left: 50%;
+		transform: translatex(-50%);
+		width: 220px;
+		height: auto;
+		z-index: -1;
+	}
+	h1 {
+		font-size: 4rem;
+		font-weight: 700;
+		line-height: 1;
+		text-align: center;
+		margin-bottom: 1em;
+	}
+	.text-gradient {
+		background-image: var(--accent-gradient);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-size: 400%;
+		background-position: 0%;
+	}
+	.link-card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem;
+    padding: 0;
+}
+
+.link-card-grid > *:nth-child(4n+1) {
+    grid-column: 1 / -1;
+}
+
+</style>
